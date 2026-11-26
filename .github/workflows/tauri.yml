@@ -75,8 +75,12 @@ jobs:
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
 
+      # setup-android 默认安装 tools + platform-tools，但遗留的 tools 包已从 SDK 仓库移除，
+      # sdkmanager 会以 "Failed to find package 'tools'" 退出。只保留 platform-tools。
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install SDK and NDK packages
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.2.12479018"
